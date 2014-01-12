@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JavaScript Test</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+        <p id="lock"> Object-to-Boolean conversion are very important in JavaScript </p>
+        <script src="imported/jquery-2.0.3.js" type="text/javascript" ></script>
+        <script type="text/javascript">
+              /*
+                function inherit(p) {
+                    if (p == null) throw TypeError();
+                    if (Object.create) {
+                        return Object.create(p);
+                    }
+                    var t = typeof p;
+                    if ( t != "object"  && t != "function") throw TypeError();
+                    f.prototype = p;
+                    return new f();
+                }
+              */
+
+                // number object literal
+                var empty = {};
+                var people ={"name": "zml", "age": 24, "salary": "infinite"}
+                var nonarray1 = []; // val empty = Arrat() in scala
+                // With "new" keyword
+                var non = new Object(); // empty object
+                var nonarray = new Array();
+                // with prototype
+
+                var book ={"author":"zml", "price": 38.9}
+                var author = book.author
+                // create a property and set its value  powerful&interesting method
+                //book.code = 13477291345
+                // delete  a property  two way just like access attribute
+                //delete book.author
+
+                // comparison of two ways to "dynamically" add attribute
+                // dot operator
+                book.author = "zml" // only one at time
+                for(var i=0; i < 2; i++) {
+                    book["author" + i] = "第" + i + "作者"
+                } // the second way is more versatile and really dynamic
+
+                var len = book && book.subtitle && book.subtitle.length;
+                // var typeE = book && book.subtitle.length  // TypeError: book.subtitle is undefined
+
+                delete Object.prototype
+                var x = 1;
+                function f() {}
+                delete f;
+                console.log("########")
+                //typeof 类型 inference  instanceof -- 是否为某个对象的实例
+                console.log(nonarray instanceof Array);
+                console.log(len);
+                console.log("hello baby one more try");
+                // type transfer  String to Number
+                console.log("是否为数字 " + !isNaN(5));
+                console.log("是否为数字 " + !isNaN("121"));
+
+                // if written in this style, the function will be automatically executed
+                (function(){
+                    if (5 > 3) {
+                        console.log(5);
+                    } else {
+                        console.log(3);
+                    }
+                })();
+
+                // convert to true
+                var convert = function() {
+                    if (document.getElementById("lock")) {
+                        return document.getElementById("lock").innerText
+                    } else {
+                        return null;
+                    }
+                };
+                console.log(convert());
+                var empty = [];
+                var result = [].toString() + 0;
+                console.log(typeof result);
+
+                var a1 =[1,2,4];
+                var a2 = a1;
+                console.log( a1 == a2 ); //a1,a2 poins to different objects in heap
+                console.log( "1" == 1 );
+                console.log( true == 1);
+                console.log( false == 0);
+
+                var prop = {"x":1, "y":2, "z":4};
+                prop.propertyIsEnumerable("toString");
+                for(p in prop) console.log(p.val);
+                // if this is not its property  omit it
+ /*               for(p in o) {
+                    if(!o.hasOwnProperty(p)) continue
+                }*/
+                // intersection
+                function intersection(o,p) {
+                    return restrict(extend({}, o), p);
+                }
+                /*
+                 * Return an array that holds the names of the enumerable own properties of o.
+                 */
+                function keys(obj) {
+                    if (typeof obj !== "object") throw TypeError(); // Object argument required
+                    // define an array to hold props
+                    var result = [];
+                    for(p in obj) {
+                        if(obj.hasOwnProperty(p)) {
+                            result.push(p)
+                        }
+                    }
+                    return result;
+                }
+
+                // define a point
+                var point = {
+                    x: 1.0,
+                    y: 1.0
+                    // getter and setter in js are just like functions with name replaced with get || set
+                };
+
+        </script>
+    </body>
+</html>

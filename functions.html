@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Function Practice</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <!-- can not leave the end  tag  -->
+    </head>
+
+    <body>
+        <div> This is part is for the practice of functions in JavaScripts </div>
+        <a href="javascript:;" id="delete" onclick="showup();">Delete me</a>
+        <script src="imported/jquery-2.0.3.js" type="text/javascript" ></script>
+        <script type="text/javascript">
+            // 阶乘
+            // in factorial it's important to find an exit for the program
+            console.log(factorial(5));
+            function factorial(n) {
+                if (n <=1) return 1;
+                else {
+                    return n*factorial(n-1);
+                }
+            }
+            console.log(factorial(5));
+
+            // pass function around like variable
+            var nums = [8,5,6,7,1,3,10,89];
+            console.log(nums instanceof Array);
+
+            console.log( nums.sort(comp));
+            //you can’t refer to a function defined as an expression until it is assigned to a variable.
+            var comp = function(a, b) {
+                return a-b;
+            }
+            console.log( nums.sort(comp));
+
+            var autoOp = ( function(x) {return x*x;}(10) );
+            console.log(autoOp);
+            var strict = (function() { return this; }()); // ECMAScript 3
+
+            // function invoked as method can access this -- the invocator
+            var caculator = {
+                left: 1,
+                right: 1,
+                add: function() {
+                    return this.left + this.right
+                }
+            }
+            // property access like invocation
+            caculator.left = 2;
+            caculator.right = 3;
+            console.log( caculator.add() );
+
+            // this refers to what
+            var myobj = {
+                m: function() {
+                    var self = this;
+                    console.log("test equality");
+                    console.log(this === myobj);
+                    f();
+                    function f() {
+                        console.log(this.CSS);
+                        // "false": this is global or undefined
+                        // I am in non-strict mode when doing the test
+                        console.log(self === myobj);
+                        // "true": self is the outer this value.
+                    }
+                 }
+            }
+            myobj.m(); // true
+
+            // what if you pass fewer parameters or more params than declared params
+            // explicitly test the type of passed params to screen inappropriate params
+
+            // 如果传了一个数组a的话 就把o的 可遍历的属性 放到a中。如果没有传递a的话 就重新生成一个a
+            function getPropertyNames(obj, arr) {
+                arr = arr || []; // cause object to boolean tranversion so this style pass
+                for( p in obj ) {
+                    arr.push(p)
+                }
+                return arr;
+            };
+            var object = {"x":1,
+                "author": {
+                    "age" : 23,
+                    "salary": 10000
+                }
+            };
+            var optionalArr = ["北京", "上海"]
+            var result1 =  getPropertyNames(object);
+            var result = getPropertyNames(object,optionalArr);
+            console.log(result);
+
+
+            function getMaxNumber() {
+                var max = Number.NEGATIVE_INFINITY;
+                for(var i=0; i <arguments.length; i++ ) {
+                    if(arguments[i] > max) max = arguments[i];
+                } // be careful the upper/low case problem
+                return max;
+            }
+            var maxResult = getMaxNumber(1, 10, 100, 2, 3, 1000, 4, 5, 10000, 6);
+            console.log(maxResult);
+            console.log(typeof getMaxNumber);
+            console.log( Number(getMaxNumber()) );  // -infinity
+
+            var isArray = Function.isArray || function(o) {
+                return typeof o === "object" &&
+                        Object.prototype.toString.call(o) === "[object Array]";
+            };
+
+            console.log([1,2,3,4].toString());   // "1,2,3,4"
+            console.log([1,2,3,4].toString);   // function toString() { [native code] }
+
+            // flexisum  check the param passed into the function
+            function flexisum(a) {
+                var total = 0;
+                for (var i=0; i < arguments.length; i++) {
+                    var element = arguments[i], n; // n 在定义时没有类型
+                    if (element == null ) continue; // leave out null
+                    if (isArray(element)) {  //if array sum its value
+                        n = flexisum.apply(this, element);
+                    } else if (typeof element === "function") {
+                        n = Number(element()); // 首先调用函数 将函数的返回值 转换成Number不是将函数转换成Number
+                    } else {
+                        n = Number(element)
+                    }
+                    // if could not tranverse to a num exception
+                    if (isNaN(n)) {
+                        throw Error("flexisum(): can't convert " + element + " to number");
+                    }
+                    total += n;
+                }
+                return total;
+            }
+
+            // function default value
+            /*	   function easyCopy(args) {
+             arraycopy(
+             args.from,
+             args.start_from || 0,  // dflt value
+             args.to,
+             args.to_start || 0,
+             args.length
+             );
+             }
+             var a = [1,2,3,4], b = [];
+             var copy = easyCopy({from:a, to:b, length:4}); // 使用了args对象的属性作为参数传递 妙哉
+             console.log(copy);*/
+
+            // function as values to be assigned to variable
+            function square(x) { return x*x }
+            function add(x, y) {return x + y;}
+            var s = square;
+            console.log(s(3));
+
+            // Functions can also be assigned to object properties rather than variables
+            // this normally employed in Recruitment.js
+            var mathmetical = {
+                square: function(x) { return x*x; },
+                add: function(x, y) { return x+y; }
+            }
+
+            // function assigned as array elements
+            var array2 = [function(x) {return x*2}, 20];
+            console.log(array2[0](3));
+
+            var showup = function() {
+                if ( confirm("确定要删除吗") ) {
+                    window.location.reload();
+                }
+            };
+            $(function(){
+                // 填写字体的文本框
+                //prompt("Please enter your name","Harry Potter");
+                if( confirm("Press a button!") ) {
+                    window.alert("hello");
+                } else {
+                    window.alert("Go to hell");
+                }
+            });
+            //confirm();
+        </script>
+    </body>
+</html>
