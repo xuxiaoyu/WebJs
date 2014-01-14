@@ -94,7 +94,7 @@
 
                 var prop = {"x":1, "y":2, "z":4};
                 prop.propertyIsEnumerable("toString");
-                for(p in prop) console.log(p.val);
+                // for(p in prop) console.log(p.val);
                 // if this is not its property  omit it
  /*               for(p in o) {
                     if(!o.hasOwnProperty(p)) continue
@@ -124,6 +124,64 @@
                     y: 1.0
                     // getter and setter in js are just like functions with name replaced with get || set
                 };
+
+              var popupDiv = {
+                  infoContent: function(title, content) {
+                      var titleElement = function(){
+                          if (title === null || title === undefined) {
+                              return $();
+                          } else {
+                              return $("<span class='title'>"+title+"</span>");
+                          }
+                      }();
+                      var container = $("<div class='infoContainer'><div>");
+                      var personInfo = $("<div class='personInfo'></div>").append(content);
+                      window.alert("asasasa");
+                      container.html(titleElement.after( personInfo.html()).html()).css("display", "block");
+                      $("body").append("<p>1111111111---------------23222222</p>");
+                  }
+              };
+              // function scope
+              ( function test(o) {  // tell javascript intepreter to explain as an function expression
+                  var i = 0; // i is defined throughout function
+                  if (typeof o === "object") {
+                      var j = 0;    // j is defined everywhere, not just block
+                      for(var k=0; k < 10; k++) { // k is defined everywhere, not just loop
+                          console.log(k);   // print numbers 0 through 9
+                      }
+                      console.log(k); // k is still defined: prints 10
+                  }
+                  console.log(j);   // j is defined, but may not be initialized
+              }({"x":3}) );
+
+              var range = "global";
+              function checkScope() {
+                var range = "local";
+                return range;
+              }
+              console.log(checkScope()); // global range was hidden by the local range
+
+              var scope = "global";
+              (function() {
+                // scope is hoisted to the top of function
+                console.log(scope);  // undefined
+                var scope = "local";
+                console.log(scope); // local
+              }());
+
+              // global object property
+              var truevar = 1;  // nonconfigurable can not be deleted
+              /*
+                We’ve already noted that if you’re not using strict mode and
+                you assign a value to an undeclared variable, JavaScript automatically creates a global
+                variable for you
+                在JavaScript中 如果给一个没有定义的变量赋值了 那么JS就会生成一个全局的对象
+              */
+              fakevar = 2;
+              this.fakevar2 = 3;
+              console.log(delete truevar);
+              console.log(delete fakevar);
+              console.log(delete this.fakevar2);
 
         </script>
     </body>
