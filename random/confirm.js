@@ -16,24 +16,5 @@ var OverlayPopup = {
                 // jQuery generator
                 return $('<div class="title"></div>').html(title);
           }();
-
-        $.each(
-            actions,
-            function (label, action) {
-                actionContainer.append(
-                    self.createButton(label).unbind("click").click(
-                        function () {
-                            action();
-                        }
-                    )
-                );
-            }
-        );
     }
 };
-
-var Helper = {
-    isNullable: function(value) {
-        return value === undefined || value === null;
-    }
-}
